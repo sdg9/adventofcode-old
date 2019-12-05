@@ -25,7 +25,7 @@ What is the sum of the fuel requirements for all of the modules on your spacecra
 
 var assert = require("assert");
 
-// const input = [12, 14];
+const input2 = [12, 14];
 const input = [
   93912,
   138996,
@@ -145,22 +145,19 @@ assert(getFuel(14) === 2);
 assert(getFuel(1969) === 654);
 assert(getFuel(100756) === 33583);
 
-// console.log("Hello world");
+const output = input.reduce(
+  (previousValue, currentValue) => previousValue + getFuel(currentValue),
+  0
+);
 
-// const reducer = (accumulator, currentValue) => {
-//   console.log("Accumulator: ", accumulator);
-//   console.log("CurrentValue: ", currentValue);
-//   //   accumulator + getFuel(currentValue);
-// };
-// const output = input.reduce(reducer);
+// let output2 = 0;
+// input.forEach(mass => {
+//   output2 += getFuel(mass);
+// });
 
-let output2 = 0;
-input.forEach(mass => {
-  output2 += getFuel(mass);
-});
-
-// console.log("Output: ", output);
-console.log("Output2: ", output2);
+console.log("Output Part 1: ", output);
+// console.log("Output Part 1: ", output2);
+// console.log("Output Part 1 Short: ", output2);
 
 /*
 --- Part Two ---
@@ -175,3 +172,24 @@ At first, a module of mass 1969 requires 654 fuel. Then, this fuel requires 216 
 The fuel required by a module of mass 100756 and its fuel is: 33583 + 11192 + 3728 + 1240 + 411 + 135 + 43 + 12 + 2 = 50346.
 What is the sum of the fuel requirements for all of the modules on your spacecraft when also taking into account the mass of the added fuel? (Calculate the fuel requirements for each module separately, then add them all up at the end.)
 */
+
+function getFuelRecursive(mass) {
+  let fuel = getFuel(mass);
+  if (fuel > 0) {
+    return fuel + getFuelRecursive(fuel);
+  } else {
+    return 0;
+  }
+}
+
+assert(getFuelRecursive(14) === 2);
+assert(getFuelRecursive(1969) === 966);
+assert(getFuelRecursive(100756) === 50346);
+
+// console.log("Output Part 2: ", output2);
+const output2 = input.reduce(
+  (previousValue, currentValue) =>
+    previousValue + getFuelRecursive(currentValue),
+  0
+);
+console.log("Output Part 2: ", output2);
