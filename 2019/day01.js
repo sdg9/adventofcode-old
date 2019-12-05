@@ -135,11 +135,6 @@ function getFuel(mass) {
   return Math.floor(mass / 3) - 2;
 }
 
-// console.log(getFuel(12));
-// console.log(getFuel(14));
-// console.log(getFuel(1969));
-// console.log(getFuel(100756));
-
 assert(getFuel(12) === 2);
 assert(getFuel(14) === 2);
 assert(getFuel(1969) === 654);
@@ -149,15 +144,7 @@ const output = input.reduce(
   (previousValue, currentValue) => previousValue + getFuel(currentValue),
   0
 );
-
-// let output2 = 0;
-// input.forEach(mass => {
-//   output2 += getFuel(mass);
-// });
-
 console.log("Output Part 1: ", output);
-// console.log("Output Part 1: ", output2);
-// console.log("Output Part 1 Short: ", output2);
 
 /*
 --- Part Two ---
@@ -186,7 +173,6 @@ assert(getFuelRecursive(14) === 2);
 assert(getFuelRecursive(1969) === 966);
 assert(getFuelRecursive(100756) === 50346);
 
-// console.log("Output Part 2: ", output2);
 const output2 = input.reduce(
   (previousValue, currentValue) =>
     previousValue + getFuelRecursive(currentValue),
