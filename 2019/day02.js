@@ -46,7 +46,9 @@ Here are the initial and final states of a few more small programs:
 Once you have a working computer, the first step is to restore the gravity assist program (your puzzle input) to the "1202 program alarm" state it had just before the last computer caught fire. To do this, before running the program, replace position 1 with the value 12 and replace position 2 with the value 2. What value is left at position 0 after the program halts?
 */
 
-const input = [
+const testInput = [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50];
+
+const actualInput = [
   1,
   0,
   0,
@@ -176,27 +178,27 @@ const mathFuncMultiply = (a, b) => a * b;
 
 let index = 0;
 
-const getNextCommand = index => {
+function getNextCommand(input, index) {
   return input.slice(index, index + 4);
-};
+}
 
-const performOperation = (positionA, positionB, mathFunc) => {
+function performOperation(input, positionA, positionB, mathFunc) {
   console.log("A: ", input[positionA]);
   console.log("B: ", input[positionB]);
   return mathFunc(input[positionA], input[positionB]);
-};
+}
 
 // const replaceValueAt = (position, value) => {
 //   input[position] = value;
 // };
 
-const processCommand = command => {
+function processOneCommand(input, command) {
   console.log(command);
   const action = command[0];
   const positionA = command[1];
   const positionB = command[2];
   const destination = command[3];
-  let shouldContinue = true;
+  let exitCode = 0;
   console.log("\nCommand: ", command);
 
   if (action === ADD) {
@@ -204,31 +206,39 @@ const processCommand = command => {
     console.log("Replacing destination ", destination);
     console.log("With New value: ", value);
     input[destination] = value;
+    exitCode = 0;
     // replaceValueAt(destination, value);
   } else if (action === MULTIPLY) {
     const value = performOperation(positionA, positionB, mathFuncMultiply);
     console.log("New value: ", value);
     input[destination] = value;
+    exitCode = 0;
     // replaceValueAt(destination, value);
   } else if (action === QUIT) {
-    shouldContinue = false;
+    // shouldContinue = false;
+    exitCode = 1;
   } else {
     // unknown
-    shouldContinue = false;
+    // shouldContinue = false;
+    exitCode = 2;
   }
   return shouldContinue;
-};
+}
+
+function processCommandArray(input, commands) {
+  const inputCopy = input.slice();
+  let exitCode = 0;
+  while (index < input.length && exitCode === 0) {
+    const command = getNextCommand(index);
+    exitCode = processOneCommand(command);
+    index += 4;
+  }
+  console.log(input);
+}
 
 // console.log(input);
 // return;
 
-let shouldRunLoop = true;
-while (index < input.length && shouldRunLoop) {
-  const command = getNextCommand(index);
-  shouldRunLoop = processCommand(command);
-  index += 4;
-}
-console.log(input);
 // console.log(getNextCommand(index));
 // const command1 = getNextCommand(index);
 
